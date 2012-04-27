@@ -29,7 +29,7 @@ MessagesController.getInstance = function () {
  */
 MessagesController.prototype.loadMessages = function (msgsString) {
 	msgsString = msgsString || $.cookie(this.cookie_name);
-	var messages;
+	var messages = {};
 	try {
 		if (msgsString) {
 			messages = $.parseJSON(msgsString);
