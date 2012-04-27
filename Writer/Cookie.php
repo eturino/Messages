@@ -8,7 +8,7 @@ class EtuDev_Messages_Writer_Cookie implements EtuDev_Messages_Writer {
 	protected $cookieName = 'app_messages';
 
 	public function addMessage($type, $message) {
-		$m      = array('level' => $type, 'msg' => $message);
+		$m      = array('level' => $type, 'msg' => rawurlencode($message));
 		$msgs   = $this->getMessages(false);
 		$msgs[] = $m;
 		EtuDev_Cookie_Helper::setCookieLive($this->cookieName, json_encode($msgs), 0, '/');
@@ -16,12 +16,12 @@ class EtuDev_Messages_Writer_Cookie implements EtuDev_Messages_Writer {
 
 	public function getMessages($destroyAfterRead = true) {
 		$a = array();
-		$m = @$_COOKIE[$this->cookieName] = '';
+		$m = @$_COOKIE[$this->cookieName] ?: '{}';
 		if ($m) {
 			try {
-				$a = json_decode($m);
+				$a = json_decode($m, true);
 			} catch (Exception $ex) {
-				//TODO the exception
+//				TODO the exception
 			}
 		}
 
