@@ -104,5 +104,5 @@ MessagesController.prototype.run = function () {
 };
 
 MessagesController.prototype.deleteCookie = function () {
-	$.cookie(this.cookie_name, '');
+	$.cookie(this.cookie_name, null);
 };
