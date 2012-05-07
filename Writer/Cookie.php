@@ -19,7 +19,7 @@ class EtuDev_Messages_Writer_Cookie implements EtuDev_Messages_Writer {
 		$m = @$_COOKIE[$this->cookieName] ?: '{}';
 		if ($m) {
 			try {
-				$a = json_decode($m, true);
+				$a = json_decode(rawurldecode($m), true);
 			} catch (Exception $ex) {
 //				TODO the exception
 			}
