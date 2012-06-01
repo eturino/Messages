@@ -4,6 +4,7 @@
  */
 function MessagesController() {
 	this.cookie_name = 'app_messages';
+	this.cookie_path = '/';
 	this.reviewed = null;
 	this.messages = {};
 }
@@ -24,7 +25,7 @@ MessagesController.getInstance = function () {
 
 /**
  *
- * @param {String} msgsString string with the messages codified in JSON, if empty it will use the cookie
+ * @param {String=} msgsString string with the messages codified in JSON, if empty it will use the cookie
  * @return MessagesController
  */
 MessagesController.prototype.loadMessages = function (msgsString) {
@@ -59,7 +60,7 @@ MessagesController.prototype.getClassByLevel = function (type) {
 		case 'notice':
 		case 'info':
 		case 'infoaction':
-			cl += 'alert-error';
+			cl += 'alert-info';
 			break;
 	}
 
@@ -68,7 +69,7 @@ MessagesController.prototype.getClassByLevel = function (type) {
 
 MessagesController.prototype.createMsgPrint = function (msg) {
 	var cl = this.getClassByLevel(msg.level);
-	var str = decodeURIComponent(msg.msg);
+	var str =  $.base64.decode(msg.msg);
 	return '<div class="' + cl + '"><a class="close" data-dismiss="alert" href="#">×</a>' + str + '</div>';
 };
 
@@ -92,11 +93,11 @@ MessagesController.prototype.render = function () {
  * @return {*}
  */
 MessagesController.prototype.run = function () {
-	if (!this.messages.length) {
+	if (this.messages && !this.messages.length) {
 		this.loadMessages();
 	}
 
-	if (this.messages.length) {
+	if (this.messages && this.messages.length) {
 		this.render();
 	}
 
@@ -104,5 +105,5 @@ MessagesController.prototype.run = function () {
 };
 
 MessagesController.prototype.deleteCookie = function () {
-	$.cookie(this.cookie_name, null);
+	$.cookie(this.cookie_name, null, {path:this.cookie_path});
 };
