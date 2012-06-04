@@ -70,6 +70,7 @@ MessagesController.prototype.getClassByLevel = function (type) {
 MessagesController.prototype.createMsgPrint = function (msg) {
 	var cl = this.getClassByLevel(msg.level);
 	var str =  $.base64.decode(msg.msg);
+	str = $.secureEvalJSON(str);
 	return '<div class="' + cl + '"><a class="close" data-dismiss="alert" href="#">×</a>' + str + '</div>';
 };
 
