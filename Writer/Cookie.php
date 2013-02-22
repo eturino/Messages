@@ -15,7 +15,7 @@ class EtuDev_Messages_Writer_Cookie implements EtuDev_Messages_Writer {
 
 	public function getMessages($destroyAfterRead = true, $decode = true) {
 		$a = array();
-		$m = @$_COOKIE[$this->cookieName] ?: '{}';
+		$m = @$_COOKIE[$this->cookieName] ? : '{}';
 		if ($m) {
 			try {
 				if ($decode) {
@@ -38,7 +38,7 @@ class EtuDev_Messages_Writer_Cookie implements EtuDev_Messages_Writer {
 			EtuDev_Cookie_Helper::deleteCookie($this->cookieName, '/');
 		}
 
-		return $a ?: array();
+		return $a ? : array();
 	}
 
 }

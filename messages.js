@@ -106,5 +106,5 @@ MessagesController.prototype.run = function () {
 };
 
 MessagesController.prototype.deleteCookie = function () {
-	$.cookie(this.cookie_name, null, {path:this.cookie_path});
+	$.cookie(this.cookie_name, null, {path: this.cookie_path});
 };
