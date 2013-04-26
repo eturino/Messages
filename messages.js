@@ -3,10 +3,10 @@
  * @constructor
  */
 function MessagesController() {
-	this.cookie_name = 'app_messages';
-	this.cookie_path = '/';
-	this.reviewed = null;
-	this.messages = {};
+    this.cookie_name = 'app_messages';
+    this.cookie_path = '/';
+    this.reviewed = null;
+    this.messages = {};
 }
 
 
@@ -15,12 +15,12 @@ function MessagesController() {
  * @returns MessagesController
  */
 MessagesController.getInstance = function () {
-	if (MessagesController._inst) {
-		return MessagesController._inst;
-	}
+    if (MessagesController._inst) {
+        return MessagesController._inst;
+    }
 
-	MessagesController._inst = new MessagesController();
-	return MessagesController._inst;
+    MessagesController._inst = new MessagesController();
+    return MessagesController._inst;
 };
 
 /**
@@ -29,18 +29,18 @@ MessagesController.getInstance = function () {
  * @return MessagesController
  */
 MessagesController.prototype.loadMessages = function (msgsString) {
-	msgsString = msgsString || $.cookie(this.cookie_name);
-	var messages = {};
-	try {
-		if (msgsString) {
-			messages = $.parseJSON(msgsString);
-		}
-	} catch (anyex) {
+    msgsString = msgsString || $.cookie(this.cookie_name);
+    var messages = {};
+    try {
+        if (msgsString) {
+            messages = $.parseJSON(msgsString);
+        }
+    } catch (anyex) {
 //		alert(anyex);
-	}
+    }
 
-	this.messages = messages;
-	return this;
+    this.messages = messages;
+    return this;
 };
 
 /**
@@ -49,44 +49,44 @@ MessagesController.prototype.loadMessages = function (msgsString) {
  * @return {String}
  */
 MessagesController.prototype.getClassByLevel = function (type) {
-	var cl = 'message alert alert-block ';
-	switch (type) {
-		case 'error':
-			cl += 'alert-error';
-			break;
-		case 'success':
-			cl += 'alert-success';
-			break;
-		case 'notice':
-		case 'info':
-		case 'infoaction':
-			cl += 'alert-info';
-			break;
-	}
+    var cl = 'message alert alert-block ';
+    switch (type) {
+        case 'error':
+            cl += 'alert-error';
+            break;
+        case 'success':
+            cl += 'alert-success';
+            break;
+        case 'notice':
+        case 'info':
+        case 'infoaction':
+            cl += 'alert-info';
+            break;
+    }
 
-	return cl;
+    return cl;
 };
 
 MessagesController.prototype.createMsgPrint = function (msg) {
-	var cl = this.getClassByLevel(msg.level);
-	var str = $.base64.decode(msg.msg);
-	str = $.secureEvalJSON(str);
-	return '<div class="' + cl + '"><a class="close" data-dismiss="alert" href="#">×</a>' + str + '</div>';
+    var cl = this.getClassByLevel(msg.level);
+    var str = $.base64.decode(msg.msg);
+    str = $.secureEvalJSON(str);
+    return '<div class="' + cl + '"><a class="close" data-dismiss="alert" href="#">×</a>' + str + '</div>';
 };
 
 MessagesController.prototype.createPrint = function () {
-	var html = '';
-	for (var x in this.messages) {
-		if (this.messages.hasOwnProperty(x)) {
-			html += this.createMsgPrint(this.messages[x]);
-		}
-	}
-	return html;
+    var html = '';
+    for (var x in this.messages) {
+        if (this.messages.hasOwnProperty(x)) {
+            html += this.createMsgPrint(this.messages[x]);
+        }
+    }
+    return html;
 };
 
 
 MessagesController.prototype.render = function () {
-	$('.messages').html(this.createPrint()).show();
+    $('.messages').html(this.createPrint()).show();
 };
 
 /**
@@ -94,17 +94,17 @@ MessagesController.prototype.render = function () {
  * @return {*}
  */
 MessagesController.prototype.run = function () {
-	if (this.messages && !this.messages.length) {
-		this.loadMessages();
-	}
+    if (this.messages && !this.messages.length) {
+        this.loadMessages();
+    }
 
-	if (this.messages && this.messages.length) {
-		this.render();
-	}
+    if (this.messages && this.messages.length) {
+        this.render();
+    }
 
-	return this;
+    return this;
 };
 
 MessagesController.prototype.deleteCookie = function () {
-	$.cookie(this.cookie_name, null, {path: this.cookie_path});
+    $.cookie(this.cookie_name, null, {path: this.cookie_path});
 };
